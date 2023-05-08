@@ -1,6 +1,5 @@
-import React from "react";
-import Banner from "../components/banner/Banner";
-import Posts from "../components/posts/Posts";
+import Banner from "../components/layouts/banner/Banner";
+import Posts from "../components/home/Posts";
 
 const Home = () => {
   return (

@@ -9,8 +9,15 @@ const User = new Schema(
     },
     password: {
       type: String,
+      minlength: 6,
       required: true,
     },
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
     // status: {
     //   type: String,
     //   required: true,

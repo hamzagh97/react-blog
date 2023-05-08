@@ -1,7 +1,7 @@
 import { BsSearch } from "react-icons/bs";
-import profilImage from "../../assets/images/profil image.webp";
+import profilImage from "../../../assets/images/profil image.webp";
 import { useContext } from "react";
-import AuthContext from "../../context/Auth-Context";
+import AuthContext from "../../../context/Auth-Context";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {

@@ -1,4 +1,3 @@
-import React from "react";
 import profilImage from "../assets/images/profil image.webp";
 import { FaBirthdayCake } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
@@ -31,7 +30,7 @@ const ProfilePage = () => {
               hamza ghazouani
             </span>
             <span className="mt-5">404 bio not found</span>
-            <div className="mt-5 flex space-x-4">
+            <div className="mt-5 flex items-center space-x-4">
               <FaBirthdayCake />
               <span>Joined on Aug 16, 2022</span>
               <FaGithub />

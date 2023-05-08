@@ -1,13 +1,20 @@
 const express = require("express");
 const router = express.Router();
-// const path = require("path");
-// const rootDir = require("../../utils/path");
 const feedControllers = require("../../controllers/feed/feedControllers");
+const isAuth = require("../../middleware/is-auth");
 
-router.get("/posts", feedControllers.getPosts);
+router.get("/posts", isAuth, feedControllers.getPosts);
 
-router.get("/post/:postId", feedControllers.getSinglePost);
+router.get("/posts/:postId", isAuth, feedControllers.getSinglePost);
 
-router.post("/post", feedControllers.addPost);
+router.post("/posts/add", isAuth, feedControllers.addPost);
+
+router.delete(
+  "/posts/delete/:postId/:userId",
+  isAuth,
+  feedControllers.deletePost
+);
+
+router.put("/posts/edit/:postId/:userId", isAuth, feedControllers.editPost);
 
 module.exports = router;

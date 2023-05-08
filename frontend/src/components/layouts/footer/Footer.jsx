@@ -1,11 +1,10 @@
-import React from "react";
 import { BsTwitter } from "react-icons/bs";
 import { BsLinkedin } from "react-icons/bs";
 import { BsYoutube } from "react-icons/bs";
 
 const Footer = () => {
   return (
-    <div className="bg-gray-200 ">
+    <div className="absolute bottom-0 left-0 right-0 bg-gray-200">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-20">
         <h1 className="font-poppins text-8xl font-black uppercase">blog</h1>
         <div className="mt-3 flex cursor-pointer space-x-8">

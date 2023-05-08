@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import AuthContext from "../context/Auth-Context";
@@ -14,9 +14,6 @@ const Login = () => {
 
   const navigate = useNavigate();
   const context = useContext(AuthContext);
-  // const login = () => {
-  //   navigate("/", true);
-  // };
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -34,26 +31,21 @@ const Login = () => {
       .post("http://localhost:5000/login", {
         email: data.email,
         password: data.password,
-        returnSecureToken: true,
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
-          context.login(res.data.idToken);
+          context.login(res.data.token, res.data.data);
           navigate("/", { replace: true });
         }
       })
       .catch((error) => {
         if (error.response) {
-          // console.log(error.response.data.error.message);
           setErrorMessage(error.response.data.error.message);
         }
       });
     setLoading(false);
   };
 
-  // context.login();
-  // navigate("/", true)
   return (
     <>
       <div className="my-20 flex flex-col items-center">
@@ -69,6 +61,7 @@ const Login = () => {
               required: true,
               pattern: /\S+@\S+\.\S+/,
             })}
+            value={"hamzagh168@gmail.com"}
           />
 
           {errors.email && errors.email.type === "required" && (
@@ -91,6 +84,7 @@ const Login = () => {
                 required: true,
                 pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
               })}
+              value={"12031986aaa"}
             />
             <span
               onClick={togglePassword}

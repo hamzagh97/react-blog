@@ -5,7 +5,7 @@ const Posts = () => {
   const { data: posts, isLoading } = usePosts();
 
   return (
-    <section className="my-10">
+    <section className="mt-10">
       <p className="flex justify-center font-poppins text-lg font-black capitalize text-black md:justify-start">
         recent posts
       </p>
@@ -27,7 +27,7 @@ const Posts = () => {
       <div className="flex justify-center">
         <button
           className="
-        mt-10 place-content-center rounded-lg border bg-violet-600 px-10 py-5 text-xl font-black capitalize text-white outline-none hover:bg-violet-900"
+        my-10 place-content-center rounded-lg border bg-violet-600 px-10 py-5 text-xl font-black capitalize text-white outline-none hover:bg-violet-900"
         >
           read more
         </button>

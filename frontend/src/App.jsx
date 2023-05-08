@@ -10,10 +10,12 @@ import Settings from "./pages/Settings";
 import { useContext } from "react";
 import AuthContext from "./context/Auth-Context";
 import RequireAuth from "./hooks/RequireAuth";
-import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/footer/Footer";
+import Navbar from "./components/layouts/navbar/Navbar";
+import Footer from "./components/layouts/footer/Footer";
 import { QueryClientProvider, QueryClient } from "react-query";
-import Loader from "./components/UI/Loader";
+import Loader from "./components/layouts/UI/Loader";
+import EditPostPage from "./pages/EditPostPage";
+import Unauthorized from "./pages/Unauthorized";
 
 function App() {
   const queryClient = new QueryClient();
@@ -22,7 +24,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="bg-gray-100">
+      <div className=" relative min-h-screen bg-gray-100 pb-72">
         <Navbar />
         <main>
           <Loader />
@@ -31,14 +33,17 @@ function App() {
               path="login"
               element={!isLoggedIn ? <Login /> : <Navigate to="/" />}
             />
-            <Route path="register" element={!isLoggedIn && <Register />} />
+            <Route
+              path="register"
+              element={!isLoggedIn ? <Register /> : <Navigate to="/" />}
+            />
 
             <Route element={<RequireAuth />}>
               <Route path="/" element={<Home />} />
               {/* <Route path="/" element={<Home />} /> */}
               <Route path="posts/:postId" element={<SinglePostPage />} />
               <Route path="create" element={<NewPostPage />} />
-              {/* <Route path="create" element={<NewPostPage />} /> */}
+              <Route path="edit/:postId" element={<EditPostPage />} />
 
               {/* <Route path="login" element={<Login />} />  */}
 
@@ -46,6 +51,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
               {/* <Route path="/settings" element={<Settings />} /> */}
             </Route>
+            <Route path="/*" element={<Unauthorized />} />
           </Routes>
         </main>
         <Footer />

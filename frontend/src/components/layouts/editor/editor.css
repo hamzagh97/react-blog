@@ -1,0 +1,19 @@
+.sun-editor .se-toolbar {
+  padding: 0 2.8rem !important;
+  outline: 0px !important;
+}
+
+.sun-editor .se-wrapper {
+  /* width: 100% !important; */
+  padding: 0 2.8rem !important;
+}
+
+.sun-editor {
+  border: none !important;
+}
+
+.se-placeholder {
+  font-size: 14px !important;
+  color: black !important;
+  padding-left: 3.8rem !important;
+}

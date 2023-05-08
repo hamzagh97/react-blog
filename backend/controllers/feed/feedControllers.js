@@ -1,40 +1,127 @@
 const Post = require("../../models/feed/feedModel");
+const User = require("../../models/auth/authModel");
 
 exports.getPosts = (req, res, next) => {
   Post.find().then((result) => {
     res.status(200).json(result);
   });
-  // res.sendFile(path.join(rootDir, "views", "add-product.html"));
 };
 
-exports.getSinglePost = (req, res, next) => {
-  const postId = req.params.postId;
-  Post.findById(postId).then((result) => {
-    console.log(result);
-    res.status(200).json(result);
-  });
+exports.getSinglePost = async (req, res, next) => {
+  const postId = req.params.postId.split(",");
+
+  let posts = [];
+
+  if (postId.length > 1) {
+    for (let i = 0; i < postId.length; i++) {
+      try {
+        await Post.findById(postId[i]).then((post) => {
+          posts.push(post);
+        });
+      } catch (error) {
+        return res.status(404).json(error);
+      }
+    }
+    res.status(200).json(posts);
+  } else {
+    Post.findById(postId[0]).then((result) => {
+      res.status(200).json(result);
+    });
+  }
 };
 
 exports.addPost = (req, res, next) => {
-  console.log(req.body);
-  //  res.sendFile(path.join(rootDir, "views", "add-product.html"));
+  console.log(req.body.title);
   const title = req.body.title;
   const content = req.body.content;
+  const userId = req.body.userId;
 
   const post = new Post({
     title: title,
     content: content,
-    creator: { name: "hmz" },
+    userId: userId,
   });
+
+  let creator;
+
   post
     .save()
     .then((result) => {
+      return User.findById(userId);
+    })
+    .then((user) => {
+      creator = user;
+      user.posts.push(post);
+      return user.save();
+    })
+    .then((result) => {
       res.status(201).json({
         message: "post created",
-        post: result,
+        post: post,
+        user: { _id: creator._id, name: creator.name },
       });
     })
     .catch((err) => {
       console.log(err);
     });
+};
+
+exports.editPost = (req, res, next) => {
+  const postId = req.params.postId;
+  const userId = req.params.userId;
+  const title = req.body.title;
+  const content = req.body.content;
+
+  Post.findById(postId).then((post) => {
+    if (!post) {
+      res.status(404).json({
+        error: "could not find post",
+      });
+    }
+    if (userId !== post.userId.toString()) {
+      res.status(403).json({
+        error: "not authorized",
+      });
+    }
+    return Post.findByIdAndUpdate(postId, { title: title, content: content })
+      .then((result) => {
+        return User.findById(userId);
+      })
+      .then((result) => {
+        res.status(200).json({
+          message: "post edited",
+        });
+      });
+  });
+};
+
+exports.deletePost = (req, res, next) => {
+  const postId = req.params.postId;
+  const userId = req.params.userId;
+
+  Post.findById(postId).then((post) => {
+    if (!post) {
+      res.status(404).json({
+        error: "could not find post",
+      });
+    }
+    if (userId !== post.userId.toString()) {
+      res.status(403).json({
+        error: "not authorized",
+      });
+    }
+    return Post.findByIdAndRemove(postId)
+      .then((result) => {
+        return User.findById(userId);
+      })
+      .then((user) => {
+        user.posts.pull(postId);
+        return user.save();
+      })
+      .then((result) => {
+        res.status(200).json({
+          message: "post deleted",
+        });
+      });
+  });
 };
