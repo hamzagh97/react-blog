@@ -3,10 +3,10 @@ import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
 import "./editor.css";
 
-const Editor = (props) => {
+const Editor = ({ handleOnChangeText, defaultValue, height }) => {
   return (
     <SunEditor
-      height={500}
+      height={height}
       placeholder="Write your post content here"
       autoFocus={true}
       setDefaultStyle="font-family: jetBrains Mono; font-size: 16px;"
@@ -24,8 +24,8 @@ const Editor = (props) => {
         ],
         resizingBar: false,
       }}
-      onChange={props.handleOnChangeText}
-      defaultValue={props.defaultValue}
+      onChange={handleOnChangeText}
+      defaultValue={defaultValue}
     />
   );
 };

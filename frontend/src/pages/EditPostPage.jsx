@@ -16,8 +16,6 @@ const EditPostPage = () => {
   const { postId } = params;
   const userId = context.user._id;
 
-  console.log(title, content);
-
   const { mutate: editPost, isLoading: isEditPostLoading } = useEditPost();
 
   const handleOnChangeTitle = (e) => {
@@ -61,6 +59,7 @@ const EditPostPage = () => {
 
             {!isSinglePostLoading && (
               <Editor
+                height={500}
                 handleOnChangeText={handleOnChangeText}
                 defaultValue={post?.data?.content}
               />

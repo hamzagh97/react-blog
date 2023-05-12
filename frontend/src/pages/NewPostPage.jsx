@@ -52,7 +52,7 @@ const NewPost = () => {
                 onChange={handleOnChangeTitle}
               />
             </div>
-            <Editor handleOnChangeText={handleOnChangeText} />
+            <Editor handleOnChangeText={handleOnChangeText} height={500} />
             <div className="flex justify-center px-14 py-5 md:justify-start">
               <button
                 type="submit"

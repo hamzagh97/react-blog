@@ -8,3 +8,7 @@
   box-sizing: border-box;
   font-family: "comfortaa";
 }
+
+/* textarea {
+  resize: none;
+} */

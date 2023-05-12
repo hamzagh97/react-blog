@@ -125,3 +125,69 @@ exports.deletePost = (req, res, next) => {
       });
   });
 };
+
+exports.getSingleComment = async (req, res, next) => {
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
+
+  const post = await Post.findById(postId);
+  const comment = post.comments.find((comment) => {
+    return comment._id.toString() === commentId;
+  });
+
+  res.status(200).json({
+    comment,
+  });
+};
+
+exports.addComment = (req, res, next) => {
+  const postId = req.params.postId;
+  const userId = req.body.userId;
+  const content = req.body.content;
+
+  const comment = {
+    userId: userId,
+    content: content,
+  };
+
+  Post.findById(postId).then((post) => {
+    if (!post) {
+      res.status(404).json({
+        error: "could not find post",
+      });
+    }
+    post.comments.push(comment);
+    return post
+      .save()
+      .then((result) => {
+        res.status(201).json({
+          message: "comment created",
+          comment: comment,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};
+
+exports.editComment = async (req, res, next) => {
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
+  const content = req.body.content;
+
+  console.log(postId, commentId, content);
+
+  const post = await Post.findById(postId);
+  post.comments.forEach((comment) => {
+    if (comment._id.toString() === commentId) {
+      return (comment.content = content);
+    }
+  });
+
+  post.save();
+
+  res.status(200).json({
+    message: "done",
+  });
+};

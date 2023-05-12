@@ -2,7 +2,7 @@ import api from "../api/api";
 import { useQuery } from "react-query";
 import { useQueryClient } from "react-query";
 
-const useSinglePost = (id, onSuccess, onError) => {
+const useSinglePost = (id, refetchOnWindowFocus, onSuccess, onError) => {
   const queryClient = useQueryClient();
 
   const getPost = ({ queryKey }) => {
@@ -11,6 +11,7 @@ const useSinglePost = (id, onSuccess, onError) => {
   };
 
   return useQuery(["posts", id], getPost, {
+    refetchOnWindowFocus: refetchOnWindowFocus,
     initialData: () => {
       if (Array.isArray(id)) {
         const posts = queryClient.getQueryData("posts")?.filter((post) => {

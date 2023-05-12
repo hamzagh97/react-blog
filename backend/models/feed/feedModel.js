@@ -16,6 +16,12 @@ const Post = new Schema(
       ref: "User",
       required: true,
     },
+    comments: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+        content: String,
+      },
+    ],
   },
   { timestamps: true }
 );

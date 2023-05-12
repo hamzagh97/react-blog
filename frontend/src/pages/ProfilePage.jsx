@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import profilImage from "../assets/images/profil image.webp";
 import { FaBirthdayCake } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
@@ -6,9 +7,15 @@ import { AiOutlineComment } from "react-icons/ai";
 import { FaHashtag } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import AuthContext from "../context/Auth-Context";
+import useSinglePost from "../hooks/useSinglePost";
 
 const ProfilePage = () => {
   const params = useParams();
+  const { user } = useContext(AuthContext);
+  const { data: post, isLoading } = useSinglePost(user.posts);
+
+  console.log(post);
 
   return (
     <>

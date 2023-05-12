@@ -16,6 +16,8 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import Loader from "./components/layouts/UI/Loader";
 import EditPostPage from "./pages/EditPostPage";
 import Unauthorized from "./pages/Unauthorized";
+import SingleCommentPgae from "./pages/SingleCommentPgae";
+import EditCommentPage from "./pages/EditCommentPage";
 
 function App() {
   const queryClient = new QueryClient();
@@ -40,16 +42,22 @@ function App() {
 
             <Route element={<RequireAuth />}>
               <Route path="/" element={<Home />} />
-              {/* <Route path="/" element={<Home />} /> */}
               <Route path="posts/:postId" element={<SinglePostPage />} />
               <Route path="create" element={<NewPostPage />} />
               <Route path="edit/:postId" element={<EditPostPage />} />
+              <Route
+                path=":postId/comments/:commentId"
+                element={<SingleCommentPgae />}
+              />
+              <Route
+                path=":postId/comments/edit/:commentId"
+                element={<EditCommentPage />}
+              />
 
               {/* <Route path="login" element={<Login />} />  */}
 
               <Route path="profil/:profilId" element={<ProfilePage />} />
               <Route path="/settings" element={<Settings />} />
-              {/* <Route path="/settings" element={<Settings />} /> */}
             </Route>
             <Route path="/*" element={<Unauthorized />} />
           </Routes>
